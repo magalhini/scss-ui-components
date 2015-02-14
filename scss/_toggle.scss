@@ -1,0 +1,137 @@
+@import "compass/css3";
+
+/* CSS Toggle Switch
+ * @author Ricardo Magalhães
+ *
+ * @usage
+ * <input type="checkbox" id="checkMe" class="toggle-switch">
+ * <label for="checkMe"></label>
+ *
+ * @options
+ * Change {$totalWidth} to the desired width, everything else
+ * should adjust accordingly.
+ */
+
+// @public
+$totalWidth: 150px;
+
+$offText: "OFF";
+$onText: "ON";
+
+$textSize: $totalWidth * 0.18;
+$textOffset: $totalWidth * 0.10;
+$textFamily: sans-serif;
+
+$offColor: #ccc;
+$offTextColor: #818181;
+$onColor: rgb(73,151,0);
+$onTextColor: #fff;
+
+// @private
+$height: $totalWidth / 2;
+$handleSize: 0.32 * $totalWidth;
+$handleColor: #fff;
+$contentOffset: $handleSize * 0.125;
+$handleOffset: $contentOffset * 2;
+
+$handleActiveOffset: $totalWidth * 0.52;
+
+$offTextIndent: $totalWidth * 0.44;
+$onTextIndent: $totalWidth * 0.16;
+
+$animationBounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+// SCSS
+.toggle-switch {
+  * {
+    @include box-sizing(border-box);
+  }
+
+  position: absolute;
+  margin-left: -9999px;
+  visibility: hidden;
+}
+
+.toggle-switch + label {
+  @include transition(compact(background .4s ease-in-out 0s));
+
+  background-color: $offColor;
+  border-radius: $totalWidth;
+  cursor: pointer;
+  display: block;
+  position: relative;
+  outline: none;
+  width: $totalWidth;
+  height: $height;
+
+  &:before,
+  &:after {
+    display: block;
+    font-family: $textFamily;
+    position: absolute;
+    content: "";
+  }
+
+  &:before {
+    @include transition(compact(
+      text-indent .2s $animationBounce
+    0s));
+
+    top:    $contentOffset;
+    left:   $contentOffset;
+    bottom: $contentOffset;
+    right:  $contentOffset;
+
+    border-radius: $totalWidth;
+    content: $offText;
+    padding-top: $textOffset;
+    font-size: $textSize;
+
+    color: $offTextColor;
+    text-indent: $offTextIndent;
+  }
+
+  // Handle
+  &:after {
+    @include transition(compact(
+      margin .2s $animationBounce 0s
+      background .4s $animationBounce 0s));
+
+    background-color: $handleColor;
+    border-radius: $totalWidth;
+    top:    $handleOffset;
+    left:   $handleOffset;
+    bottom: $handleOffset;
+    width:  $handleSize;
+    height: $handleSize;
+  }
+}
+
+// On hovering the switch,
+.toggle-switch:hover + label:after {
+  transform: scale(1.1);
+}
+
+// When checked,
+.toggle-switch:checked + label {
+  background: $onColor;
+
+  &:before {
+    content: $onText;
+    color: $onTextColor;
+    text-indent: $onTextIndent;
+  }
+
+  &:after {
+    margin-left: $handleActiveOffset;
+  }
+}
+
+// Active state (pressing)
+.toggle-switch:active + label:after {
+  left: $totalWidth * .02;
+}
+
+.toggle-switch:active:checked + label:after {
+  left: $totalWidth * .12;
+}

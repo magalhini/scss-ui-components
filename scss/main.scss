@@ -1,0 +1,20 @@
+@import "compass/reset";
+@import "toggle";
+
+body {
+	font-family: sans-serif;
+	line-height: 1.5;
+	max-width: 40em;
+	margin: 0 auto;
+}
+
+h1 {
+	font-size: 2em;
+	margin: 0.6em 0;
+	border-bottom: 1px solid #333;
+}
+
+h2 {
+	font-size: 1.5em;
+	margin: 0.3em 0;
+}
